@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // ----- User Defined
-using InGame.ForUnit;
 using InGame.ForUnit.Manage;
+using InGame.ForState;
 
 namespace InGame
 {
@@ -18,13 +18,29 @@ namespace InGame
         // --------------------------------------------------
         [Header("Manage Group")]
         [SerializeField] private UnitController _unitController = null;
+        
+        // --------------------------------------------------
+        // Properties
+        // --------------------------------------------------
+        public static Main NullableInstance
+        {
+            get;
+            private set;
+        } = null;
+
+        public UnitController UnitController => _unitController;
 
         // --------------------------------------------------
         // Functions - Event
         // --------------------------------------------------
+        private void Awake()
+        {
+            NullableInstance = this;
+        }
+
         private IEnumerator Start()
         {
-            
+            StateMachine.Instance.ChangeState(EStateType.WalkMode, null);
             yield return null;
         }
     }
