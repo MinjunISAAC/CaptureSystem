@@ -9,6 +9,7 @@ using UnityEngine;
 using InGame.ForUnit.Manage;
 using InGame.ForState;
 using InGame.ForCam;
+using InGame.ForUI;
 
 namespace InGame
 {
@@ -20,6 +21,11 @@ namespace InGame
         [Header("Manage Group")]
         [SerializeField] private UnitController _unitController = null;
         [SerializeField] private CamController  _camController  = null;
+
+        [Header("UI Group")]
+        [SerializeField] private MainView       _mainView       = null;
+        [SerializeField] private CaptureView    _captureView    = null;
+
 
         // --------------------------------------------------
         // Properties
@@ -50,6 +56,15 @@ namespace InGame
             // Cam Controller 초기화
             var targetUnit = _unitController.TargetUnit;
             _camController.OnInit(targetUnit);
+
+            // Main View 초기화
+            _mainView.OnInit
+            (
+                () =>
+                { 
+                    _captureView.gameObject.SetActive(true);
+                }
+            );
 
             yield return null;
         }
