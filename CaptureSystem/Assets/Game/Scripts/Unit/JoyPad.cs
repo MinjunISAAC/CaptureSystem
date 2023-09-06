@@ -46,19 +46,12 @@ namespace InGame.ForUnit.ForUI
         // --------------------------------------------------
         // Property
         // --------------------------------------------------
-        public float MoveSpeed => _moveSpeed;
+        public float         MoveSpeed => _moveSpeed;
         public RectTransform FrameRect => _frameRect;
 
         // --------------------------------------------------
         // Move Factors Event
         // --------------------------------------------------
-        public event Action<float, float> OnChangeMoveFactorsEvent;
-        public void ChangeMoveFactors(float moveSpeed, float rotateSpeed)
-        {
-            if (OnChangeMoveFactorsEvent != null)
-                OnChangeMoveFactorsEvent(moveSpeed, rotateSpeed);
-        }
-
         public event Action<bool> OnUsedJoyStickEvent;
         public void UsedJoyStickEvent(bool isUsed)
         {
@@ -74,18 +67,21 @@ namespace InGame.ForUnit.ForUI
             if (Input.GetMouseButtonDown(0))
             {
                 if (null == _targetUnit) return;
-                if (!_isActived) return;
+                if (!_isActived)         return;
 
-                _isDragging = true;
-
+                _isDragging         = true;
                 _frameRect.position = Input.mousePosition;
+                
                 _OnTouch(Input.mousePosition);
             }
 
             if (Input.GetMouseButton(0))
             {
                 if (null == _targetUnit) return;
-                if (!_isActived) return;
+                if (!_isActived)         return;
+
+                if (Vector3.Magnitude(_targetUnit.UnitRigidBody.velocity) >= 0.25f && _targetUnit.UnitState != Unit.EUnitState.Walk)
+                    _targetUnit.ChangeToUnitState(Unit.EUnitState.Walk);
 
                 _frameRect.gameObject.SetActive(true);
                 _OnTouch(Input.mousePosition);
@@ -94,12 +90,13 @@ namespace InGame.ForUnit.ForUI
             if (Input.GetMouseButtonUp(0))
             {
                 if (null == _targetUnit) return;
-                if (!_isActived) return;
+                if (!_isActived)         return;
 
                 _isDragging = false;
 
                 _targetUnit.UnitRigidBody.velocity = Vector3.zero;
-                
+                _targetUnit.ChangeToUnitState(Unit.EUnitState.Idle);
+
                 _frameRect.gameObject.SetActive(false);
                 _stickRect.localPosition = Vector2.zero;
             }
@@ -119,8 +116,7 @@ namespace InGame.ForUnit.ForUI
             _moveSpeed   = _originMoveValue;
             _rotateSpeed = _originRotateValue;
 
-            OnChangeMoveFactorsEvent += (moveSpeed, rotateSpeed) => { _moveSpeed = moveSpeed; _rotateSpeed = rotateSpeed; };
-            OnUsedJoyStickEvent      += (isUsed)                 => { _isActived = isUsed; _stickRect.localPosition = Vector2.zero; _movePos = Vector3.zero; };
+            OnUsedJoyStickEvent += (isUsed) => { _isActived = isUsed; _stickRect.localPosition = Vector2.zero; _movePos = Vector3.zero; };
         }
 
         private void _OnTouch(Vector2 touchVec)

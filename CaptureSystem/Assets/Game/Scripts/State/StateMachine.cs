@@ -59,7 +59,7 @@ namespace InGame.ForState
             (
                 new Dictionary<EStateType, SimpleState<EStateType>>()
                 {
-                    { EStateType.WalkMode,   new State_WalkMode()   },
+                    { EStateType.MoveMode,   new State_MoveMode()   },
                     { EStateType.CameraMode, new State_CameraMode() },
                 },
                 _coroutineExecutor,

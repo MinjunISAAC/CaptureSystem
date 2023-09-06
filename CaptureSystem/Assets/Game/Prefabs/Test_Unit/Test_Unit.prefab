@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rb: {fileID: 2124904240269429815}
-  _animator: {fileID: 0}
+  _animator: {fileID: 4453372337920888628}
 --- !u!136 &2124904240269429813
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -148,6 +148,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f4e4b2f6ede242d6b1612255453c8fd, type: 3}
+--- !u!95 &4453372337920888628 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2355562574921587846, guid: 5f4e4b2f6ede242d6b1612255453c8fd, type: 3}
+  m_PrefabInstance: {fileID: 2124904238847136690}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7723007466445641038 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8525471852940363516, guid: 5f4e4b2f6ede242d6b1612255453c8fd, type: 3}

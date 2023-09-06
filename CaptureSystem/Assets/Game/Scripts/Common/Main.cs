@@ -45,7 +45,7 @@ namespace InGame
         private IEnumerator Start()
         {
             // State 초기화
-            StateMachine.Instance.ChangeState(EStateType.WalkMode, null);
+            StateMachine.Instance.ChangeState(EStateType.MoveMode, null);
 
             // Cam Controller 초기화
             var targetUnit = _unitController.TargetUnit;

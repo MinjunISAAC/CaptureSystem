@@ -11,7 +11,7 @@ using InGame.ForUnit.Manage;
 
 namespace InGame.ForState
 {
-    public class State_WalkMode : SimpleState<EStateType>
+    public class State_MoveMode : SimpleState<EStateType>
     {
         // --------------------------------------------------
         // Variables
@@ -27,14 +27,14 @@ namespace InGame.ForState
         // --------------------------------------------------
         // Properties
         // --------------------------------------------------
-        public override EStateType StateType => EStateType.WalkMode;
+        public override EStateType StateType => EStateType.MoveMode;
 
         // --------------------------------------------------
         // Functions - Nomal
         // --------------------------------------------------
         protected override void _Start(EStateType preStateKey, object startParam)
         {
-            Debug.Log($"<color=yellow>[State_WalkMode._Start] Walk Mode에 진입하였습니다.</color>");
+            Debug.Log($"<color=yellow>[State_MoveMode._Start] Walk Mode에 진입하였습니다.</color>");
 
             #region <Manage Group>
             _owner = Main.NullableInstance;
@@ -54,11 +54,12 @@ namespace InGame.ForState
 
             // Unit Controller 초기화
             _unitController.OnInitToUnit();
+
         }
 
         protected override void _Finish(EStateType nextStateKey)
         {
-            Debug.Log($"<color=yellow>[State_WalkMode._Start] Walk Mode에 이탈하였습니다.</color>");
+            Debug.Log($"<color=yellow>[State_MoveMode._Start] Walk Mode에 이탈하였습니다.</color>");
         }
     }
 }

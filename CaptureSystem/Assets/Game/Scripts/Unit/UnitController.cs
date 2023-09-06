@@ -66,12 +66,8 @@ namespace InGame.ForUnit.Manage
             _joyPad.UsedJoyStickEvent(true);
         }
 
-        public void ChangeUnitSpeed(float moveSpeed, float roatateSpeed = ROTATE_VALUE)
-        {
-            _unitMoveValue = moveSpeed;
-            _joyPad.ChangeMoveFactors(moveSpeed, roatateSpeed);
-        }
-
+        public void ChangeToUnitState(Unit.EUnitState unitState) => _targetUnit.ChangeToUnitState(unitState);
+            
         public void UsedJoyPad(bool isOn)
         {
             _joyPad.UsedJoyStickEvent(isOn);
