@@ -1,18 +1,31 @@
+// ----- C#
 using System.Collections;
 using System.Collections.Generic;
+
+// ----- Unity
 using UnityEngine;
 
-public class Main : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+// ----- User Defined
+using InGame.ForUnit;
+using InGame.ForUnit.Manage;
 
-    // Update is called once per frame
-    void Update()
+namespace InGame
+{
+    public class Main : MonoBehaviour
     {
-        
+        // --------------------------------------------------
+        // Components
+        // --------------------------------------------------
+        [Header("Manage Group")]
+        [SerializeField] private UnitController _unitController = null;
+
+        // --------------------------------------------------
+        // Functions - Event
+        // --------------------------------------------------
+        private IEnumerator Start()
+        {
+            
+            yield return null;
+        }
     }
 }
