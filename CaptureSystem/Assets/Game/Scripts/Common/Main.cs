@@ -8,6 +8,7 @@ using UnityEngine;
 // ----- User Defined
 using InGame.ForUnit.Manage;
 using InGame.ForState;
+using InGame.ForCam;
 
 namespace InGame
 {
@@ -18,9 +19,7 @@ namespace InGame
         // --------------------------------------------------
         [Header("Manage Group")]
         [SerializeField] private UnitController _unitController = null;
-
-        [Header("ETC Group")]
-        [SerializeField] private Transform      _unitSpawnPoint = null;
+        [SerializeField] private CamController  _camController  = null;
 
         // --------------------------------------------------
         // Properties
@@ -33,6 +32,8 @@ namespace InGame
 
         public UnitController UnitController => _unitController;
 
+        public CamController  CamController  => _camController;
+
         // --------------------------------------------------
         // Functions - Event
         // --------------------------------------------------
@@ -43,7 +44,13 @@ namespace InGame
 
         private IEnumerator Start()
         {
+            // State 초기화
             StateMachine.Instance.ChangeState(EStateType.WalkMode, null);
+
+            // Cam Controller 초기화
+            var targetUnit = _unitController.TargetUnit;
+            _camController.OnInit(targetUnit);
+
             yield return null;
         }
     }

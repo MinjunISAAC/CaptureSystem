@@ -12,7 +12,8 @@ namespace InGame.ForUnit
         // --------------------------------------------------
         // Components
         // --------------------------------------------------
-        [SerializeField] private Rigidbody _rb = null;
+        [SerializeField] private Rigidbody _rb       = null;
+        [SerializeField] private Animator  _animator = null;
 
         // --------------------------------------------------
         // Properties

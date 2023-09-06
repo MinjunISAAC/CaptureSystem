@@ -35,8 +35,8 @@ namespace InGame.ForUnit.Manage
         // --------------------------------------------------
         // Property
         // --------------------------------------------------
-        public Unit   PlayableUnit => _targetUnit;
-        public JoyPad JoyPad       => _joyPad;
+        public Unit   TargetUnit => _targetUnit;
+        public JoyPad JoyPad     => _joyPad;
 
         // --------------------------------------------------
         // Functions - Nomal
