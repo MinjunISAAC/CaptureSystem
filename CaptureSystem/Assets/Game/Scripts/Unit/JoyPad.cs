@@ -16,12 +16,13 @@ namespace InGame.ForUnit.ForUI
         [Header("Activate")]
         [SerializeField] private bool          _isActived = true;    // 활성화 여부 
 
-        [Space(1f)]
         [Header("JoyStick RectTransform")]
-        [SerializeField] private RectTransform _frameRect = null;    // Joy Pad 외각 프레임 
-        [SerializeField] private RectTransform _stickRect = null;    // Joy Pad 중앙 스틱 
+        [SerializeField] private RectTransform _canvasRect = null;
+        [SerializeField] private RectTransform _frameRect  = null;    // Joy Pad 외각 프레임 
+        [SerializeField] private RectTransform _stickRect  = null;    // Joy Pad 중앙 스틱 
 
-        [Space(1f)]
+        [SerializeField] private RectTransform _blindArea = null;    // Joy Pad 중앙 스틱 
+
         [Header("Origin Move Speed")]
         [Range(0f, 50f)][SerializeField] private float _originMoveValue   = 0.125f;  // 기본 속도 값 
         [Range(0f, 1f)] [SerializeField] private float _originRotateValue = 1f;      // 기본 속도 값 
@@ -66,19 +67,22 @@ namespace InGame.ForUnit.ForUI
         {
             if (Input.GetMouseButtonDown(0))
             {
-                if (null == _targetUnit) return;
-                if (!_isActived)         return;
-
+                if (null == _targetUnit)                 return;
+                if (!_isActived)                         return;
+                
                 _isDragging         = true;
                 _frameRect.position = Input.mousePosition;
                 
+                if (!_BlindToTouch(_frameRect.anchoredPosition)) return;
+
                 _OnTouch(Input.mousePosition);
             }
 
             if (Input.GetMouseButton(0))
             {
-                if (null == _targetUnit) return;
-                if (!_isActived)         return;
+                if (null == _targetUnit)                 return;
+                if (!_isActived)                         return;
+                if (!_BlindToTouch(_frameRect.anchoredPosition)) return;
 
                 if (Vector3.Magnitude(_targetUnit.UnitRigidBody.velocity) >= 0.25f && _targetUnit.UnitState != Unit.EUnitState.Walk)
                     _targetUnit.ChangeToUnitState(Unit.EUnitState.Walk);
@@ -91,6 +95,7 @@ namespace InGame.ForUnit.ForUI
             {
                 if (null == _targetUnit) return;
                 if (!_isActived)         return;
+                if (!_BlindToTouch(_frameRect.anchoredPosition)) return;
 
                 _isDragging = false;
 
@@ -137,6 +142,17 @@ namespace InGame.ForUnit.ForUI
 
             var rotateVec                  = Quaternion.Euler(new Vector3(0f, Mathf.Atan2(vecNormal.x, vecNormal.y) * Mathf.Rad2Deg, 0f));
             _targetUnit.transform.rotation = Quaternion.Lerp(_targetUnit.transform.rotation, rotateVec, _rotateSpeed);
+        }
+
+        private bool _BlindToTouch(Vector3 inputPos)
+        {
+            Debug.Log($"Position : ({inputPos.x},{inputPos.y}) / {_blindArea.anchoredPosition.x - _blindArea.rect.width / 2f},{_blindArea.anchoredPosition.y + _blindArea.rect.height / 2f} / {_blindArea.rect.width},{_blindArea.rect.height}");
+
+            if (inputPos.x >= _blindArea.anchoredPosition.x - _blindArea.rect.width / 2f &&
+                inputPos.y <= _blindArea.anchoredPosition.y + _blindArea.rect.height / 2f)
+                return false;
+            else
+                return true;
         }
 
         public void SetSpeed(float speed)
