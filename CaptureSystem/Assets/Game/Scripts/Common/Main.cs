@@ -18,7 +18,10 @@ namespace InGame
         // --------------------------------------------------
         [Header("Manage Group")]
         [SerializeField] private UnitController _unitController = null;
-        
+
+        [Header("ETC Group")]
+        [SerializeField] private Transform      _unitSpawnPoint = null;
+
         // --------------------------------------------------
         // Properties
         // --------------------------------------------------

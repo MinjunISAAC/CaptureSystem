@@ -17,10 +17,11 @@ namespace InGame.ForUnit.Manage
         // Components
         // --------------------------------------------------
         [Header("Joy Pad")]
-        [SerializeField] private JoyPad    _joyPad            = null;
+        [SerializeField] private JoyPad    _joyPad         = null;
 
         [Header("Unit Group")]
-        [SerializeField] private Unit      _targetUnit        = null;
+        [SerializeField] private Unit      _targetUnit     = null;
+        [SerializeField] private Transform _unitSpawnPoint = null;
 
         // --------------------------------------------------
         // Variables
@@ -46,8 +47,7 @@ namespace InGame.ForUnit.Manage
             if (_targetUnit == null)
                 return null;
             
-            if (spawnTrans != null)
-                _targetUnit.transform.position = spawnTrans.position;
+            _targetUnit.transform.position = _unitSpawnPoint.position;
 
             SetJoyPad();
 
