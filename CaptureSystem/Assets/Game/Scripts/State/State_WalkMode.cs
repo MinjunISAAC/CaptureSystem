@@ -53,6 +53,7 @@ namespace InGame.ForState
             #endregion
 
             // Unit Controller √ ±‚»≠
+            _unitController.OnInitToUnit();
         }
 
         protected override void _Finish(EStateType nextStateKey)

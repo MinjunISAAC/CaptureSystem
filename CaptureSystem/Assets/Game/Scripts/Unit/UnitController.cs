@@ -18,7 +18,9 @@ namespace InGame.ForUnit.Manage
         // --------------------------------------------------
         [Header("Joy Pad")]
         [SerializeField] private JoyPad    _joyPad            = null;
-        [SerializeField] private Transform _unitCreateParents = null;
+
+        [Header("Unit Group")]
+        [SerializeField] private Unit      _targetUnit        = null;
 
         // --------------------------------------------------
         // Variables
@@ -27,7 +29,6 @@ namespace InGame.ForUnit.Manage
         private const float ROTATE_VALUE = 0.5f;
 
         // ----- Private
-        private Unit  _targetUnit    = null;
         private float _unitMoveValue = 0.0f;
 
         // --------------------------------------------------
@@ -40,16 +41,11 @@ namespace InGame.ForUnit.Manage
         // Functions - Nomal
         // --------------------------------------------------
         // ----- Public
-        public Unit CreateTargetUnit(Unit targetUnit, Transform spawnTrans = null)
+        public Unit OnInitToUnit(Transform spawnTrans = null)
         {
-            if (_targetUnit != null)
-            {
-                Debug.LogError($"<color = red>[UnitController.CreateTargetUnit] 이미 Target Unit이 존재합니다.</color>");
+            if (_targetUnit == null)
                 return null;
-            }
-
-            _targetUnit = Instantiate(targetUnit, _unitCreateParents);
-
+            
             if (spawnTrans != null)
                 _targetUnit.transform.position = spawnTrans.position;
 
