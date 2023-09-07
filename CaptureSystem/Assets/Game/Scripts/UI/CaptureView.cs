@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 // ----- Unity
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace InGame.ForUI
 {
@@ -13,7 +14,12 @@ namespace InGame.ForUI
         // --------------------------------------------------
         // Components
         // --------------------------------------------------
-        [SerializeField] private Animation _animation = null;
+        [Header("UI Group")]
+        [SerializeField] private Button    _BTN_Capture       = null;
+
+        [Header("Animate Group")]
+        [SerializeField] private Animation _captureScreenAnim = null;
+        [SerializeField] private Animation _blackOutAnim      = null;
 
         // --------------------------------------------------
         // Variables
@@ -21,6 +27,7 @@ namespace InGame.ForUI
         // ----- Const
         private const string SCREEN_SHOW = "Camera_Screen_Show";
         private const string SCREEN_HIDE = "Camera_Screen_Hide";
+        private const string BLACK_OUT   = "Camera_BlackOut";
 
         // ----- Private
         private Coroutine _co_VisiableScreen = null;
@@ -37,6 +44,24 @@ namespace InGame.ForUI
             }
         }
 
+        public void OnInit()
+        {
+            _BTN_Capture.onClick.AddListener
+            (
+                () => 
+                {
+                    _ShowBlackOut();
+                }
+            );
+        }
+
+        // ----- Private
+        private void _ShowBlackOut()
+        {
+            _blackOutAnim.clip = _blackOutAnim.GetClip(BLACK_OUT);
+            _blackOutAnim.Play();
+        }
+
         // --------------------------------------------------
         // Functions - Coroutine
         // --------------------------------------------------
@@ -46,16 +71,16 @@ namespace InGame.ForUI
 
             if (isShow)
             {
-                _animation.gameObject.SetActive(true);
-                _animation.clip = _animation.GetClip(SCREEN_SHOW);
-                _animation.Play();
+                _captureScreenAnim.gameObject.SetActive(true);
+                _captureScreenAnim.clip = _captureScreenAnim.GetClip(SCREEN_SHOW);
+                _captureScreenAnim.Play();
             }
             else
             {
-                _animation.clip = _animation.GetClip(SCREEN_HIDE);
-                _animation.Play();
+                _captureScreenAnim.clip = _captureScreenAnim.GetClip(SCREEN_HIDE);
+                _captureScreenAnim.Play();
 
-                var clipTime = _animation.clip.length;
+                var clipTime = _captureScreenAnim.clip.length;
                 
                 yield return new WaitForSeconds(clipTime);
             }

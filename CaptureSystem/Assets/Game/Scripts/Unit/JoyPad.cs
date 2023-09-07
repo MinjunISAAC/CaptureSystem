@@ -20,8 +20,7 @@ namespace InGame.ForUnit.ForUI
         [SerializeField] private RectTransform _canvasRect = null;
         [SerializeField] private RectTransform _frameRect  = null;    // Joy Pad ¿Ü°¢ ÇÁ·¹ÀÓ 
         [SerializeField] private RectTransform _stickRect  = null;    // Joy Pad Áß¾Ó ½ºÆ½ 
-
-        [SerializeField] private RectTransform _blindArea = null;    // Joy Pad Áß¾Ó ½ºÆ½ 
+        [SerializeField] private RectTransform _blindArea  = null;
 
         [Header("Origin Move Speed")]
         [Range(0f, 50f)][SerializeField] private float _originMoveValue   = 0.125f;  // ±âº» ¼Óµµ °ª 
@@ -80,10 +79,9 @@ namespace InGame.ForUnit.ForUI
 
             if (Input.GetMouseButton(0))
             {
-                if (null == _targetUnit)                 return;
-                if (!_isActived)                         return;
+                if (null == _targetUnit)                         return;
+                if (!_isActived)                                 return;
                 if (!_BlindToTouch(_frameRect.anchoredPosition)) return;
-
                 if (Vector3.Magnitude(_targetUnit.UnitRigidBody.velocity) >= 0.25f && _targetUnit.UnitState != Unit.EUnitState.Walk)
                     _targetUnit.ChangeToUnitState(Unit.EUnitState.Walk);
 
@@ -93,8 +91,8 @@ namespace InGame.ForUnit.ForUI
 
             if (Input.GetMouseButtonUp(0))
             {
-                if (null == _targetUnit) return;
-                if (!_isActived)         return;
+                if (null == _targetUnit)                         return;
+                if (!_isActived)                                 return;
                 if (!_BlindToTouch(_frameRect.anchoredPosition)) return;
 
                 _isDragging = false;
@@ -132,7 +130,6 @@ namespace InGame.ForUnit.ForUI
 
             _stickRect.localPosition = Vector2.ClampMagnitude(vec, _joyStickRadius);
 
-
             if (_isDragging) _targetUnit.UnitRigidBody.velocity = force;
             else             _targetUnit.UnitRigidBody.velocity = Vector3.zero;
 
@@ -146,8 +143,6 @@ namespace InGame.ForUnit.ForUI
 
         private bool _BlindToTouch(Vector3 inputPos)
         {
-            Debug.Log($"Position : ({inputPos.x},{inputPos.y}) / {_blindArea.anchoredPosition.x - _blindArea.rect.width / 2f},{_blindArea.anchoredPosition.y + _blindArea.rect.height / 2f} / {_blindArea.rect.width},{_blindArea.rect.height}");
-
             if (inputPos.x >= _blindArea.anchoredPosition.x - _blindArea.rect.width / 2f &&
                 inputPos.y <= _blindArea.anchoredPosition.y + _blindArea.rect.height / 2f)
                 return false;

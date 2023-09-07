@@ -70,11 +70,14 @@ namespace InGame
                         { 
                             _camController.ChangeToCamState(CamController.ECamState.CaptureMode);
                             _unitController.UsedJoyPad(false);
+                            _mainView.gameObject.SetActive(false);
                         }, 
                         null
                     );
                 }
             );
+
+            _captureView.OnInit();
 
             yield return null;
         }
