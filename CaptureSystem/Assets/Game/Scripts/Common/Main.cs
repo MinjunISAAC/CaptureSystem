@@ -63,6 +63,16 @@ namespace InGame
                 () =>
                 { 
                     _captureView.gameObject.SetActive(true);
+                    _captureView.VisiableToScreen
+                    (
+                        true, 
+                        () => 
+                        { 
+                            _camController.ChangeToCamState(CamController.ECamState.CaptureMode);
+                            _unitController.UsedJoyPad(false);
+                        }, 
+                        null
+                    );
                 }
             );
 

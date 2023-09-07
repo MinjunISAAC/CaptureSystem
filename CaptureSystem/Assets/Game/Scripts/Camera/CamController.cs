@@ -20,13 +20,15 @@ namespace InGame.ForCam
             Unknown       = 0,
             Follow_Unit   = 1,
             UnFollow_Unit = 2,
+            CaptureMode   = 3,
         }
 
         // --------------------------------------------------
         // Components
         // --------------------------------------------------
-        [Header("Target Camera")]
+        [Header("Camera Group")]
         [SerializeField] private Camera  _targetCam      = null;
+        [SerializeField] private Camera  _captureCam     = null;
 
         [Space(1.5f)]
         [Header("Transform Offset Collection")]
@@ -72,7 +74,7 @@ namespace InGame.ForCam
             }
 
             _camState = camState;
-
+             
             if (_co_CurrentState != null)
                 StopCoroutine(_co_CurrentState);
 
@@ -80,6 +82,7 @@ namespace InGame.ForCam
             {
                 case ECamState.Follow_Unit:   _State_FollowUnit();   break;
                 case ECamState.UnFollow_Unit: _State_UnFollowUnit(); break;
+                case ECamState.CaptureMode:   _State_CaptureMode();  break;
             }
         }
 
@@ -104,12 +107,26 @@ namespace InGame.ForCam
 
             _co_CurrentState = StartCoroutine(_Co_UnFollowUnit());
         }
+            
+        private void _State_CaptureMode()
+        {
+            if (_targetUnit == null)
+            {
+                Debug.LogError($"[CamController._State_UnFollowUnit] Target Unit이 존재하지 않습니다.");
+                return;
+            }
+
+            _co_CurrentState = StartCoroutine(_Co_CaptureMode());
+        }
 
         // --------------------------------------------------
         // Functions - State Coroutine
         // --------------------------------------------------
         private IEnumerator _Co_FollowUnit()
         {
+            _targetCam. gameObject.SetActive(true);
+            _captureCam.gameObject.SetActive(false);
+
             while (_camState == ECamState.Follow_Unit)
             {
                 if (_targetUnit != null)
@@ -127,6 +144,13 @@ namespace InGame.ForCam
 
         private IEnumerator _Co_UnFollowUnit()
         {
+            yield return null;
+        }
+
+        private IEnumerator _Co_CaptureMode()
+        {
+            _targetCam. gameObject.SetActive(false);
+            _captureCam.gameObject.SetActive(true);
             yield return null;
         }
     }
