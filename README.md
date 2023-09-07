@@ -61,3 +61,14 @@
   - **[State Group](https://github.com/MinjunISAAC/CaptureSystem/tree/main/CaptureSystem/Assets/Game/Scripts/State)**
     
   - **[Camera Controller](https://github.com/MinjunISAAC/CaptureSystem/blob/main/CaptureSystem/Assets/Game/Scripts/Camera/CamController.cs)**
+
+
+### 4. 피드백
+
+- **[Gallery] 갤러리에서 사진을 확대해서 볼 수 있는 기능이 있으면 좋을 것 같음.**
+
+- **[Capture Mode] '캡쳐 모드'에서도 '갤러리 모드'로 넘어갈 수 있는 기능이 누락 되었음.**
+  
+- **[Capture Mode] '캡쳐 모드'에서도 화면 전환이 필요할 것 같음.**
+
+- **[Joy Pad] 해당 조작 기능은 탑뷰에서의 조작방식이므로 1인칭, 3인칭 조작방식으로 수정되어야함.**
