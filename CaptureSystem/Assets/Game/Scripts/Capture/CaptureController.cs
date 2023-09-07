@@ -70,7 +70,7 @@ namespace InGame.ForCapture
             var captureFiles  = Directory.GetFiles(_capturePicturePath);
             var fileCount     = captureFiles.Length / 2;
             var renderTexture = new RenderTexture(_widthResolution, _heightResolution, 24);
-            var writeTexture  = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.ARGB32, false);
+            var writeTexture  = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, true);
 
             _captureCamera.targetTexture = renderTexture;
             _captureCamera.Render();
