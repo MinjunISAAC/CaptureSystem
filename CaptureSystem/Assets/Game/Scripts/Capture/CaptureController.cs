@@ -8,6 +8,7 @@ using UnityEngine;
 
 // ----- User Defined
 using InGame.ForUI;
+using UnityEditor;
 
 namespace InGame.ForCapture
 {
@@ -89,6 +90,7 @@ namespace InGame.ForCapture
             string fileName      = $"CaptureSystem_{fileCount}.png";
 
             File.WriteAllBytes(Path.Combine(_capturePicturePath, fileName), bytes);
+            AssetDatabase.Refresh();
 
             return writeTexture;
         }
