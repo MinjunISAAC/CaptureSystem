@@ -16,6 +16,7 @@ namespace InGame.ForUI
         // --------------------------------------------------
         [Header("UI Group")]
         [SerializeField] private Button    _BTN_Capture       = null;
+        [SerializeField] private Button    _BTN_Close         = null;
 
         [Header("Animate Group")]
         [SerializeField] private Animation _captureScreenAnim = null;
@@ -35,40 +36,41 @@ namespace InGame.ForUI
         // --------------------------------------------------
         // Functions - Nomal
         // --------------------------------------------------
-        public void VisiableToScreen(bool isShow, Action cameraAction, Action doneCallBack)
+        public void VisiableToScreen(bool isShow, Action doneCallBack)
         {
             if (_co_VisiableScreen == null)
             {
-                _co_VisiableScreen = StartCoroutine(_Co_VisiableToScreen(isShow, cameraAction, doneCallBack));
+                _co_VisiableScreen = StartCoroutine(_Co_VisiableToScreen(isShow, doneCallBack));
                 return;
             }
         }
 
-        public void OnInit()
+        public void OnInit(Action onClickCaptureButton, Action onClickCloseButton)
         {
             _BTN_Capture.onClick.AddListener
             (
-                () => 
-                {
-                    _ShowBlackOut();
-                }
+                () => { onClickCaptureButton?.Invoke(); }
+            );
+
+            _BTN_Close.onClick.AddListener
+            (
+                () => { onClickCloseButton?.Invoke(); }
             );
         }
 
-        // ----- Private
-        private void _ShowBlackOut()
+        public void ShowBlackOut()
         {
             _blackOutAnim.clip = _blackOutAnim.GetClip(BLACK_OUT);
             _blackOutAnim.Play();
         }
 
+        // ----- Private
+
         // --------------------------------------------------
         // Functions - Coroutine
         // --------------------------------------------------
-        private IEnumerator _Co_VisiableToScreen(bool isShow, Action cameraAction, Action doneCallBack)
+        private IEnumerator _Co_VisiableToScreen(bool isShow, Action doneCallBack)
         {
-            cameraAction?.Invoke();
-
             if (isShow)
             {
                 _captureScreenAnim.gameObject.SetActive(true);
@@ -81,7 +83,6 @@ namespace InGame.ForUI
                 _captureScreenAnim.Play();
 
                 var clipTime = _captureScreenAnim.clip.length;
-                
                 yield return new WaitForSeconds(clipTime);
             }
 

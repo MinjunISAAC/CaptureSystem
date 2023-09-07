@@ -8,6 +8,7 @@ using UnityEngine;
 // ----- User Defined
 using Utility.SimpleFSM;
 using InGame.ForUnit.Manage;
+using InGame.ForUI;
 
 namespace InGame.ForState
 {
@@ -17,11 +18,13 @@ namespace InGame.ForState
         // Variables
         // --------------------------------------------------
         // ----- Owner
-        private Main _owner = null;
+        private Main           _owner          = null;
 
         // ----- UI
+        private MainView       _mainView       = null;
+        private CaptureView    _captureView    = null;
 
-        // ----- Count Down Value
+        // ----- Manage
         private UnitController _unitController = null;
 
         // --------------------------------------------------
@@ -44,6 +47,20 @@ namespace InGame.ForState
                 return;
             }
 
+            _mainView = _owner.MainView;
+            if (_mainView == null)
+            {
+                Debug.LogError($"<color=red>[State_WalkMode._Start] Main View가 Null 상태입니다.</color>");
+                return;
+            }
+
+            _captureView = _owner.CaptureView;
+            if (_captureView == null)
+            {
+                Debug.LogError($"<color=red>[State_WalkMode._Start] Capture View가 Null 상태입니다.</color>");
+                return;
+            }
+
             _unitController = _owner.UnitController;
             if (_unitController == null)
             {
@@ -52,9 +69,12 @@ namespace InGame.ForState
             }
             #endregion
 
-            // Unit Controller 초기화
-            _unitController.OnInitToUnit();
+            // View 진입
+            _mainView.   gameObject.SetActive(true);
+            _captureView.gameObject.SetActive(false);
 
+            // Joy Pad 활성화
+            _unitController.UsedJoyPad(true);
         }
 
         protected override void _Finish(EStateType nextStateKey)

@@ -10,6 +10,7 @@ using InGame.ForUnit.Manage;
 using InGame.ForState;
 using InGame.ForCam;
 using InGame.ForUI;
+using InGame.ForCapture;
 
 namespace InGame
 {
@@ -19,13 +20,13 @@ namespace InGame
         // Components
         // --------------------------------------------------
         [Header("Manage Group")]
-        [SerializeField] private UnitController _unitController = null;
-        [SerializeField] private CamController  _camController  = null;
+        [SerializeField] private UnitController    _unitController    = null;
+        [SerializeField] private CamController     _camController     = null;
+        [SerializeField] private CaptureController _captureController = null;
 
         [Header("UI Group")]
         [SerializeField] private MainView       _mainView       = null;
         [SerializeField] private CaptureView    _captureView    = null;
-
 
         // --------------------------------------------------
         // Properties
@@ -36,9 +37,12 @@ namespace InGame
             private set;
         } = null;
 
-        public UnitController UnitController => _unitController;
+        public UnitController    UnitController    => _unitController;
+        public CaptureController CaptureController => _captureController;
+        public CamController     CamController     => _camController;
 
-        public CamController  CamController  => _camController;
+        public MainView          MainView          => _mainView;
+        public CaptureView       CaptureView       => _captureView;
 
         // --------------------------------------------------
         // Functions - Event
@@ -50,34 +54,42 @@ namespace InGame
 
         private IEnumerator Start()
         {
-            // State 초기화
-            StateMachine.Instance.ChangeState(EStateType.MoveMode, null);
-
             // Cam Controller 초기화
             var targetUnit = _unitController.TargetUnit;
             _camController.OnInit(targetUnit);
 
+            // Unit Controller 초기화
+            _unitController.OnInitToUnit();
+
+            // Capture Controller 초기화
+            var captureCamera = _camController.CaptureCamera;
+            _captureController.SetCaptureInfo  ();
+            _captureController.SetCaptureCamera(captureCamera);
+            _captureController.SetCaptureView  (_captureView);
+
             // Main View 초기화
             _mainView.OnInit
             (
-                () =>
+                () => 
                 { 
-                    _captureView.gameObject.SetActive(true);
-                    _captureView.VisiableToScreen
-                    (
-                        true, 
-                        () => 
-                        { 
-                            _camController.ChangeToCamState(CamController.ECamState.CaptureMode);
-                            _unitController.UsedJoyPad(false);
-                            _mainView.gameObject.SetActive(false);
-                        }, 
-                        null
-                    );
+                    _camController.ChangeToCamState(CamController.ECamState.CaptureMode);
+                    StateMachine.Instance.ChangeState(EStateType.CameraMode, null);
                 }
             );
 
-            _captureView.OnInit();
+            // Capture View 초기화
+            _captureView.OnInit
+            (
+                () => 
+                { 
+                    _captureController.Capture();  
+                },
+                () => { StateMachine.Instance.ChangeState(EStateType.MoveMode, null); }
+            );
+
+            // 초기 State 설정
+            StateMachine.Instance.ChangeState(EStateType.MoveMode, null);
+
 
             yield return null;
         }

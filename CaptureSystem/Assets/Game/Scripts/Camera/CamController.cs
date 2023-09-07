@@ -46,6 +46,11 @@ namespace InGame.ForCam
         private Coroutine _co_CurrentState = null;
 
         // --------------------------------------------------
+        // Properties
+        // --------------------------------------------------
+        public Camera CaptureCamera => _captureCam;
+
+        // --------------------------------------------------
         // Functions - Nomal
         // --------------------------------------------------
         // ----- Public

@@ -29,7 +29,10 @@ namespace InGame.ForUI
         // --------------------------------------------------
         public void OnInit(Action onClickCaptureBtn)
         {
-            _BTN_Capture.onClick.AddListener(() => onClickCaptureBtn());
+            _BTN_Capture.onClick.AddListener
+            (
+                () => onClickCaptureBtn()
+            );
         }
     }
 }
