@@ -17,10 +17,11 @@ namespace InGame.ForUnit.ForUI
         [SerializeField] private bool          _isActived = true;    // 활성화 여부 
 
         [Header("JoyStick RectTransform")]
-        [SerializeField] private RectTransform _canvasRect = null;
-        [SerializeField] private RectTransform _frameRect  = null;    // Joy Pad 외각 프레임 
-        [SerializeField] private RectTransform _stickRect  = null;    // Joy Pad 중앙 스틱 
-        [SerializeField] private RectTransform _blindArea  = null;
+        [SerializeField] private RectTransform _canvasRect  = null;
+        [SerializeField] private RectTransform _frameRect   = null;    // Joy Pad 외각 프레임 
+        [SerializeField] private RectTransform _stickRect   = null;    // Joy Pad 중앙 스틱 
+        [SerializeField] private RectTransform _blindArea_0 = null;
+        [SerializeField] private RectTransform _blindArea_1 = null;
 
         [Header("Origin Move Speed")]
         [Range(0f, 50f)][SerializeField] private float _originMoveValue   = 0.125f;  // 기본 속도 값 
@@ -143,8 +144,10 @@ namespace InGame.ForUnit.ForUI
 
         private bool _BlindToTouch(Vector3 inputPos)
         {
-            if (inputPos.x >= _blindArea.anchoredPosition.x - _blindArea.rect.width / 2f &&
-                inputPos.y <= _blindArea.anchoredPosition.y + _blindArea.rect.height / 2f)
+            if ((inputPos.x >= _blindArea_0.anchoredPosition.x - _blindArea_0.rect.width / 2f &&
+                 inputPos.y <= _blindArea_0.anchoredPosition.y + _blindArea_0.rect.height / 2f) || 
+                (inputPos.x <= _blindArea_1.anchoredPosition.x + _blindArea_1.rect.width / 2f &&
+                 inputPos.y >= _blindArea_1.anchoredPosition.y - _blindArea_1.rect.height / 2f))
                 return false;
             else
                 return true;

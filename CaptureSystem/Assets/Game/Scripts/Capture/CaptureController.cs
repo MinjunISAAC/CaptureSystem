@@ -35,6 +35,11 @@ namespace InGame.ForCapture
         private int         _heightResolution   = 256;
 
         // --------------------------------------------------
+        // Properties
+        // --------------------------------------------------
+        public string PhotoDirectoryPath => _capturePicturePath;
+
+        // --------------------------------------------------
         // Functions - Nomal
         // --------------------------------------------------
         // ----- Public

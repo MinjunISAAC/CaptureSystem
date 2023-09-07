@@ -9,6 +9,7 @@ using UnityEngine;
 using Utility.SimpleFSM;
 using InGame.ForUnit.Manage;
 using InGame.ForUI;
+using InGame.ForCam;
 
 namespace InGame.ForState
 {
@@ -23,6 +24,7 @@ namespace InGame.ForState
         // ----- UI
         private MainView       _mainView       = null;
         private CaptureView    _captureView    = null;
+        private GalleryView    _galleryView    = null;
 
         // ----- Manage
         private UnitController _unitController = null;
@@ -61,6 +63,13 @@ namespace InGame.ForState
                 return;
             }
 
+            _galleryView = _owner.GalleryView;
+            if (_captureView == null)
+            {
+                Debug.LogError($"<color=red>[State_WalkMode._Start] Gallery View가 Null 상태입니다.</color>");
+                return;
+            }
+
             _unitController = _owner.UnitController;
             if (_unitController == null)
             {
@@ -72,6 +81,7 @@ namespace InGame.ForState
             // View 진입
             _mainView.   gameObject.SetActive(true);
             _captureView.gameObject.SetActive(false);
+            _galleryView.gameObject.SetActive(false);
 
             // Joy Pad 활성화
             _unitController.UsedJoyPad(true);
